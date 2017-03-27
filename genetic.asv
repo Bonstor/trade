@@ -1,0 +1,25 @@
+function [ err ] = Untitled( size_of_nero,nerons,length )
+%UNTITLED Summary of this function goes here
+%   Detailed explanation goes here
+tmp=[];
+size_of_nero=in(1)
+[ P,T ] = make_data4( RTS(1:30000), BR(1:30000), SBRF(1:30000), Si(1:30000) , length);
+    for j=1:3
+        if size_of_nero == 1
+            net=feedforwardnet([nerons],'trainscg');
+        end;
+        if size_of_nero == 2
+            net=feedforwardnet([nerons,nerons],'trainscg');
+        end;
+        if size_of_nero == 3
+            net=feedforwardnet([nerons,nerons,nerons],'trainscg');
+        end;
+        net.trainParam.max_fail=6;
+        net=train(net,P,T*100,'useGPU','yes');
+        [p,in] = procent(sim(net,P),T);
+        tmp=[tmp,p];
+    end;
+    err=100-mean(tmp);
+
+end
+

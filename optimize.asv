@@ -3,7 +3,7 @@ function [ proc,neuro ] = optimize( P,T )
 %   Detailed explanation goes here
 proc=[];
 neuro=[];
-for i=10:5:320
+for i=10:10:100
     tmp=[];
     for j=1:3
         net=feedforwardnet([i],'trainscg');
